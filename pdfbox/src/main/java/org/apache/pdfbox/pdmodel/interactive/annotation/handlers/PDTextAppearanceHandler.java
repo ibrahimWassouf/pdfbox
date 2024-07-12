@@ -16,6 +16,7 @@
 package org.apache.pdfbox.pdmodel.interactive.annotation.handlers;
 
 import java.awt.geom.AffineTransform;
+
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.io.IOException;
@@ -34,6 +35,7 @@ import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationText;
+import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationTextEnum;
 import org.apache.pdfbox.util.Matrix;
 
 /**
@@ -48,22 +50,22 @@ public class PDTextAppearanceHandler extends PDAbstractAppearanceHandler
 
     static
     {
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_NOTE);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_INSERT);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_CROSS);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_HELP);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_CIRCLE);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_PARAGRAPH);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_NEW_PARAGRAPH);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_CHECK);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_STAR);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_RIGHT_ARROW);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_RIGHT_POINTER);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_CROSS_HAIRS);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_UP_ARROW);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_UP_LEFT_ARROW);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_COMMENT);
-        SUPPORTED_NAMES.add(PDAnnotationText.NAME_KEY);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_NOTE);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_INSERT);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_CROSS);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_HELP);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_CIRCLE);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_PARAGRAPH);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_NEW_PARAGRAPH);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_CHECK);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_STAR);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_RIGHT_ARROW);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_RIGHT_POINTER);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_CROSS_HAIRS);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_UP_ARROW);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_UP_LEFT_ARROW);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_COMMENT);
+        SUPPORTED_NAMES.add(PDAnnotationTextEnum.NAME_KEY);
     }
 
     public PDTextAppearanceHandler(PDAnnotation annotation)
@@ -103,52 +105,52 @@ public class PDTextAppearanceHandler extends PDAbstractAppearanceHandler
 
             switch (annotation.getName())
             {
-                case PDAnnotationText.NAME_NOTE:
+                case PDAnnotationTextEnum.NAME_NOTE:
                     drawNote(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_CROSS:
+                case PDAnnotationTextEnum.NAME_CROSS:
                     drawCross(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_CIRCLE:
+                case PDAnnotationTextEnum.NAME_CIRCLE:
                     drawCircles(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_INSERT:
+                case PDAnnotationTextEnum.NAME_INSERT:
                     drawInsert(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_HELP:
+                case PDAnnotationTextEnum.NAME_HELP:
                     drawHelp(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_PARAGRAPH:
+                case PDAnnotationTextEnum.NAME_PARAGRAPH:
                     drawParagraph(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_NEW_PARAGRAPH:
+                case PDAnnotationTextEnum.NAME_NEW_PARAGRAPH:
                     drawNewParagraph(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_STAR:
+                case PDAnnotationTextEnum.NAME_STAR:
                     drawStar(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_CHECK:
+                case PDAnnotationTextEnum.NAME_CHECK:
                     drawCheck(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_RIGHT_ARROW:
+                case PDAnnotationTextEnum.NAME_RIGHT_ARROW:
                     drawRightArrow(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_RIGHT_POINTER:
+                case PDAnnotationTextEnum.NAME_RIGHT_POINTER:
                     drawRightPointer(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_CROSS_HAIRS:
+                case PDAnnotationTextEnum.NAME_CROSS_HAIRS:
                     drawCrossHairs(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_UP_ARROW:
+                case PDAnnotationTextEnum.NAME_UP_ARROW:
                     drawUpArrow(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_UP_LEFT_ARROW:
+                case PDAnnotationTextEnum.NAME_UP_LEFT_ARROW:
                     drawUpLeftArrow(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_COMMENT:
+                case PDAnnotationTextEnum.NAME_COMMENT:
                     drawComment(annotation, contentStream);
                     break;
-                case PDAnnotationText.NAME_KEY:
+                case PDAnnotationTextEnum.NAME_KEY:
                     drawKey(annotation, contentStream);
                     break;
                 default:

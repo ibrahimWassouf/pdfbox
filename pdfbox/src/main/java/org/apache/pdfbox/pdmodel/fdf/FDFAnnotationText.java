@@ -21,6 +21,7 @@ import java.io.IOException;
 import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationText;
+import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationTextEnum;
 import org.w3c.dom.Element;
 
 /**
@@ -102,7 +103,7 @@ public class FDFAnnotationText extends FDFAnnotation
      */
     public String getIcon()
     {
-        return annot.getNameAsString(COSName.NAME, PDAnnotationText.NAME_NOTE);
+        return annot.getNameAsString(COSName.NAME, PDAnnotationTextEnum.NAME_NOTE);
     }
 
     /**

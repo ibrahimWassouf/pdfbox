@@ -136,7 +136,7 @@ public abstract class PDAnnotation implements COSObjectable
                     return new PDAnnotationPolyline(annotDic);
                 case PDAnnotationInk.SUB_TYPE:
                     return new PDAnnotationInk(annotDic);
-                case PDAnnotationText.SUB_TYPE:
+                case PDAnnotationTextEnum.SUB_TYPE:
                     return new PDAnnotationText(annotDic);
                 case PDAnnotationHighlight.SUB_TYPE:
                     return new PDAnnotationHighlight(annotDic);
