@@ -38,6 +38,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.ImageData;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -120,9 +121,12 @@ class LosslessFactoryTest
         PDPage page = new PDPage();
         document.addPage(page);
         PDPageContentStream contentStream = new PDPageContentStream(document, page, AppendMode.APPEND, false);
-        contentStream.drawImage(ximage1, 200, 300, ximage1.getWidth() / 2, ximage1.getHeight() / 2);
-        contentStream.drawImage(ximage2, 200, 450, ximage2.getWidth() / 2, ximage2.getHeight() / 2);
-        contentStream.drawImage(ximage3, 200, 600, ximage3.getWidth() / 2, ximage3.getHeight() / 2);
+        ImageData data1 = new ImageData(200, 200, ximage1.getWidth()/2, ximage1.getHeight()/2);
+        ImageData data2 = new ImageData(200, 450, ximage2.getWidth()/2, ximage2.getHeight()/2);
+        ImageData data3 = new ImageData(200, 600, ximage3.getWidth()/2, ximage3.getHeight()/2);
+        contentStream.drawImage(ximage1, data1);
+        contentStream.drawImage(ximage2, data2);
+        contentStream.drawImage(ximage3, data3);
         contentStream.close();
         
         File pdfFile = new File(TESTRESULTSDIR, "misc.pdf");
@@ -543,8 +547,10 @@ class LosslessFactoryTest
         PDPage page = new PDPage();
         document.addPage(page);
         PDPageContentStream contentStream = new PDPageContentStream(document, page, AppendMode.APPEND, false);
-        contentStream.drawImage(ximage2, 150, 300, ximage2.getWidth(), ximage2.getHeight());
-        contentStream.drawImage(ximage, 150, 300, ximage.getWidth(), ximage.getHeight());
+        ImageData data = new ImageData(150, 300, ximage.getWidth(), ximage.getHeight());
+        ImageData data2 = new ImageData(150, 300, ximage2.getWidth(), ximage2.getHeight());
+        contentStream.drawImage(ximage2, data2);
+        contentStream.drawImage(ximage, data);
         contentStream.close();
         File pdfFile = new File(TESTRESULTSDIR, pdfFilename);
         document.save(pdfFile);

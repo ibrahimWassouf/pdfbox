@@ -35,6 +35,7 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.pdmodel.ImageData;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -198,9 +199,8 @@ class PNGConverterTest
                 contentStream.setNonStrokingColor(Color.PINK);
                 contentStream.addRect(0, 0, page.getCropBox().getWidth(), page.getCropBox().getHeight());
                 contentStream.fill();
-                
-                contentStream.drawImage(pdImageXObject, 0, 0, pdImageXObject.getWidth(),
-                        pdImageXObject.getHeight());
+                ImageData data = new ImageData(0, 0, pdImageXObject.getWidth(), pdImageXObject.getHeight());
+                contentStream.drawImage(pdImageXObject, data);
             }
             doc.save(new File(parentDir, name + ".pdf"));
             BufferedImage image = pdImageXObject.getImage();

@@ -230,11 +230,13 @@ class TestPDPageContentStream
             doc.addPage(page);
             PDPageContentStream contentStream = new PDPageContentStream(doc, page);
             contentStream.beginText();
+            
+            ImageData data = new ImageData(0f, 0f, 1f, 1f);
 
             PDImageXObject img1 = new PDImageXObject(doc);
             PDInlineImage img2 = new PDInlineImage(new COSDictionary(), new byte[0], new PDResources());
             Assertions.assertThrows(IllegalStateException.class,
-                    () -> contentStream.drawImage(img1, 0f, 0f, 1f, 1f));
+                    () -> contentStream.drawImage(img1, data));
             Assertions.assertThrows(IllegalStateException.class,
                     () -> contentStream.drawImage(img1, new Matrix()));
             Assertions.assertThrows(IllegalStateException.class,

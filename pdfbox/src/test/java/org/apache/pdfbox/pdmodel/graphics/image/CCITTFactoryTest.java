@@ -28,6 +28,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
+import org.apache.pdfbox.pdmodel.ImageData;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -83,7 +84,8 @@ class CCITTFactoryTest
             document.addPage(page);
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page, AppendMode.APPEND, false))
             {
-                contentStream.drawImage(ximage3, 0, 0, ximage3.getWidth(), ximage3.getHeight());
+            	ImageData data = new ImageData(0, 0, ximage3.getWidth(), ximage3.getHeight());
+                contentStream.drawImage(ximage3, data);
             }
             
             PDImageXObject ximage4 = CCITTFactory.createFromFile(document, new File(tiffG4Path));
@@ -141,7 +143,8 @@ class CCITTFactoryTest
                 document.addPage(page);
                 try (PDPageContentStream contentStream = new PDPageContentStream(document, page, AppendMode.APPEND, false))
                 {
-                    contentStream.drawImage(ximage, 0, 0, ximage.getWidth() / factor, ximage.getHeight() / factor);
+                	ImageData data = new ImageData(0, 0, ximage.getWidth()/factor, ximage.getHeight()/factor);
+                    contentStream.drawImage(ximage, data);
                 }
                 ++pdfPageNum;
             }
@@ -174,7 +177,8 @@ class CCITTFactoryTest
             document.addPage(page);
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page, AppendMode.APPEND, false))
             {
-                contentStream.drawImage(ximage3, 0, 0, ximage3.getWidth(), ximage3.getHeight());
+            	ImageData data = new ImageData(0, 0, ximage3.getWidth(), ximage3.getHeight());
+                contentStream.drawImage(ximage3, data);
             }
 
             document.save(TESTRESULTSDIR + "/singletifffrombi.pdf");
@@ -211,7 +215,8 @@ class CCITTFactoryTest
             document.addPage(page);
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page, AppendMode.APPEND, false))
             {
-                contentStream.drawImage(ximage3, 0, 0, ximage3.getWidth(), ximage3.getHeight());
+            	ImageData data = new ImageData(0, 0, ximage3.getWidth(), ximage3.getHeight());
+                contentStream.drawImage(ximage3, data);
             }
             
             document.save(TESTRESULTSDIR + "/singletifffromchessbi.pdf");
