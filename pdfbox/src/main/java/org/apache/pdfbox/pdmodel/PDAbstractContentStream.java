@@ -17,6 +17,7 @@
 package org.apache.pdfbox.pdmodel;
 
 import java.awt.Color;
+
 import java.awt.geom.AffineTransform;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -67,6 +68,7 @@ import org.apache.pdfbox.pdmodel.graphics.state.RenderingMode;
 import org.apache.pdfbox.util.Matrix;
 import org.apache.pdfbox.util.NumberFormatUtil;
 import org.apache.pdfbox.util.StringUtil;
+import org.apache.pdfbox.pdmodel.ImageData;
 
 /**
  * Provides the ability to write to a content stream.
@@ -401,7 +403,8 @@ abstract class PDAbstractContentStream implements Closeable
      */
     public void drawImage(PDImageXObject image, float x, float y) throws IOException
     {
-        drawImage(image, x, y, image.getWidth(), image.getHeight());
+        ImageData data = new ImageData(x, y, image.getWidth(), image.getHeight());
+    	drawImage(image, data);
     }
 
     /**
@@ -416,7 +419,7 @@ abstract class PDAbstractContentStream implements Closeable
      * @throws IOException If there is an error writing to the stream.
      * @throws IllegalStateException If the method was called within a text block.
      */
-    public void drawImage(PDImageXObject image, float x, float y, float width, float height) throws IOException
+    public void drawImage(PDImageXObject image, ImageData data) throws IOException
     {
         if (inTextMode)
         {
@@ -425,7 +428,7 @@ abstract class PDAbstractContentStream implements Closeable
 
         saveGraphicsState();
 
-        AffineTransform transform = new AffineTransform(width, 0, 0, height, x, y);
+        AffineTransform transform = new AffineTransform(data.getWidth(), 0, 0, data.getHeight(), data.getX(), data.getY());
         transform(new Matrix(transform));
 
         writeOperand(resources.add(image));
