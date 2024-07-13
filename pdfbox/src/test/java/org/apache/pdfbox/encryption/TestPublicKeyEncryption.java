@@ -140,7 +140,7 @@ class TestPublicKeyEncryption
 
         document = Loader.loadPDF(new File(this.getClass().getResource("test.pdf").toURI()));
         text = new PDFTextStripper().getText(document);
-        producer = document.getDocumentInformation().getProducer();
+        producer = document.getDocumentInformation().getManuscriptInfo().getProducer();
         document.setVersion(1.7f);
     }
 
@@ -285,7 +285,7 @@ class TestPublicKeyEncryption
                 keyStore, null, IOUtils.createMemoryOnlyStreamCache());
         assertEquals(text, new PDFTextStripper().getText(doc2),
                 "Extracted text is different");
-        assertEquals(producer, doc2.getDocumentInformation().getProducer(),
+        assertEquals(producer, doc2.getDocumentInformation().getManuscriptInfo().getProducer(),
                 "Producer is different");
         return doc2;
     }

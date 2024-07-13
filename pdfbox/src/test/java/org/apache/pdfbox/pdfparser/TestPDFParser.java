@@ -66,12 +66,12 @@ class TestPDFParser
                 .loadPDF(new File(TARGETPDFDIR, "PDFBOX-3208-L33MUTT2SVCWGCS6UIYL5TH3PNPXHIS6.pdf")))
         {
             PDDocumentInformation di = doc.getDocumentInformation();
-            assertEquals("Liquent Enterprise Services", di.getAuthor());
-            assertEquals("Liquent services server", di.getCreator());
-            assertEquals("Amyuni PDF Converter version 4.0.0.9", di.getProducer());
+            assertEquals("Liquent Enterprise Services", di.getManuscriptInfo().getAuthor());
+            assertEquals("Liquent services server", di.getManuscriptInfo().getCreator());
+            assertEquals("Amyuni PDF Converter version 4.0.0.9", di.getManuscriptInfo().getProducer());
             assertEquals("", di.getKeywords());
             assertEquals("", di.getSubject());
-            assertEquals("892B77DE781B4E71A1BEFB81A51A5ABC_20140326022424.docx", di.getTitle());
+            assertEquals("892B77DE781B4E71A1BEFB81A51A5ABC_20140326022424.docx", di.getManuscriptInfo().getTitle());
             assertEquals(DateConverter.toCalendar("D:20140326142505-02'00'"), di.getCreationDate());
             assertEquals(DateConverter.toCalendar("20140326172513Z"), di.getModificationDate());
         }
@@ -89,12 +89,12 @@ class TestPDFParser
         try (PDDocument doc = Loader.loadPDF(new File(TARGETPDFDIR, "PDFBOX-3940-079977.pdf")))
         {
             PDDocumentInformation di = doc.getDocumentInformation();
-            assertEquals("Unknown", di.getAuthor());
-            assertEquals("C:REGULA~1IREGSFR_EQ_EM.WP", di.getCreator());
-            assertEquals("Acrobat PDFWriter 3.02 for Windows", di.getProducer());
+            assertEquals("Unknown", di.getManuscriptInfo().getAuthor());
+            assertEquals("C:REGULA~1IREGSFR_EQ_EM.WP", di.getManuscriptInfo().getCreator());
+            assertEquals("Acrobat PDFWriter 3.02 for Windows", di.getManuscriptInfo().getProducer());
             assertEquals("", di.getKeywords());
             assertEquals("", di.getSubject());
-            assertEquals("C:REGULA~1IREGSFR_EQ_EM.PDF", di.getTitle());
+            assertEquals("C:REGULA~1IREGSFR_EQ_EM.PDF", di.getManuscriptInfo().getTitle());
             assertEquals(DateConverter.toCalendar("Tuesday, July 28, 1998 4:00:09 PM"), di.getCreationDate());
         }
     }
@@ -259,9 +259,9 @@ class TestPDFParser
                 .loadPDF(new File(TARGETPDFDIR, "PDFBOX-3977-63NGFQRI44HQNPIPEJH5W2TBM6DJZWMI.pdf")))
         {
             PDDocumentInformation di = doc.getDocumentInformation();
-            assertEquals("QuarkXPress(tm) 6.52", di.getCreator());
-            assertEquals("Acrobat Distiller 7.0 pour Macintosh", di.getProducer());
-            assertEquals("Fich sal Fabr corr1 (Page 6)", di.getTitle());
+            assertEquals("QuarkXPress(tm) 6.52", di.getManuscriptInfo().getCreator());
+            assertEquals("Acrobat Distiller 7.0 pour Macintosh", di.getManuscriptInfo().getProducer());
+            assertEquals("Fich sal Fabr corr1 (Page 6)", di.getManuscriptInfo().getTitle());
             assertEquals(DateConverter.toCalendar("D:20070608151915+02'00'"), di.getCreationDate());
             assertEquals(DateConverter.toCalendar("D:20080604152122+02'00'"), di.getModificationDate());
         }

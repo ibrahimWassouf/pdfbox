@@ -45,12 +45,12 @@ class TestPDDocumentInformation
         {
            PDDocumentInformation info = doc.getDocumentInformation();
            
-           assertEquals("Brian Carrier", info.getAuthor(), "Wrong author");
+           assertEquals("Brian Carrier", info.getManuscriptInfo().getAuthor(), "Wrong author");
            assertNotNull(info.getCreationDate(), "Wrong creationDate");
-           assertEquals("Acrobat PDFMaker 8.1 for Word", info.getCreator(), "Wrong creator");
+           assertEquals("Acrobat PDFMaker 8.1 for Word", info.getManuscriptInfo().getCreator(), "Wrong creator");
            assertNull(info.getKeywords(), "Wrong keywords");
            assertNotNull(info.getModificationDate(), "Wrong modificationDate");
-           assertEquals("Acrobat Distiller 8.1.0 (Windows)", info.getProducer(), "Wrong producer");
+           assertEquals("Acrobat Distiller 8.1.0 (Windows)", info.getManuscriptInfo().getProducer(), "Wrong producer");
            assertNull(info.getSubject(), "Wrong subject");
            assertNull(info.getTrapped(), "Wrong trapped");
 
@@ -82,7 +82,7 @@ class TestPDDocumentInformation
                         TestPDDocumentInformation.class.getResourceAsStream("PDFBOX-3068.pdf"))))
         {
             PDDocumentInformation documentInformation = doc.getDocumentInformation();
-            assertEquals("Title", documentInformation.getTitle());
+            assertEquals("Title", documentInformation.getManuscriptInfo().getTitle());
         }
     }
     
