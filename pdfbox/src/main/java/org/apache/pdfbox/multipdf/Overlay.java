@@ -73,26 +73,14 @@ public class Overlay implements Closeable
 
     private Position position = Position.BACKGROUND;
 
-    private String inputFileName = null;
-    private PDDocument inputPDFDocument = null;
-
-    private String defaultOverlayFilename = null;
-    private PDDocument defaultOverlay = null;
-
-    private String firstPageOverlayFilename = null;
-    private PDDocument firstPageOverlay = null;
-
-    private String lastPageOverlayFilename = null;
-    private PDDocument lastPageOverlay = null;
-    
-    private String allPagesOverlayFilename = null;
-    private PDDocument allPagesOverlay = null;
-    
-    private String oddPageOverlayFilename = null;
-    private PDDocument oddPageOverlay = null;
-    
-    private String evenPageOverlayFilename = null;
-    private PDDocument evenPageOverlay = null;
+    private OverlayDocument inputFile = new OverlayDocument();
+    private OverlayDocument defaultOverlay = new OverlayDocument();
+    private OverlayDocument firstPageOverlay = new OverlayDocument();
+    private OverlayDocument lastPageOverlay = new OverlayDocument();
+    private OverlayDocument allPagesOverlay = new OverlayDocument();
+    private OverlayDocument oddPageOverlay = new OverlayDocument();
+    private OverlayDocument evenPageOverlay = new OverlayDocument();
+    private OverlayDocument[] overlays = {inputFile, defaultOverlay, firstPageOverlay, lastPageOverlay, allPagesOverlay, oddPageOverlay, evenPageOverlay};
 
     private int numberOfOverlayPages = 0;
     private boolean useAllOverlayPages = false;
@@ -129,8 +117,8 @@ public class Overlay implements Closeable
             }
             specificPageOverlayLayoutPageMap.put(e.getKey(), layoutPage);
         }
-        processPages(inputPDFDocument);
-        return inputPDFDocument;
+        processPages(inputFile.getDoc());
+        return inputFile.getDoc();
     }
 
     /**
@@ -158,8 +146,8 @@ public class Overlay implements Closeable
                 specificPageOverlayLayoutPageMap.put(e.getKey(), getLayoutPage(doc));
             }
         }
-        processPages(inputPDFDocument);
-        return inputPDFDocument;
+        processPages(inputFile.getDoc());
+        return inputFile.getDoc();
     }
 
     /**
@@ -170,30 +158,13 @@ public class Overlay implements Closeable
     @Override
     public void close() throws IOException
     {
-        if (defaultOverlay != null)
-        {
-            defaultOverlay.close();
-        }
-        if (firstPageOverlay != null)
-        {
-            firstPageOverlay.close();
-        }
-        if (lastPageOverlay != null)
-        {
-            lastPageOverlay.close();
-        }
-        if (allPagesOverlay != null)
-        {
-            allPagesOverlay.close();
-        }
-        if (oddPageOverlay != null)
-        {
-            oddPageOverlay.close();
-        }
-        if (evenPageOverlay != null)
-        {
-            evenPageOverlay.close();
-        }
+    	for (OverlayDocument overlay : overlays) {
+    		if (overlay.getDoc() != null) {
+    			overlay.getDoc().close();
+    		}
+    		
+    	}
+        
         for (PDDocument doc : openDocumentsSet)
         {
             doc.close();
@@ -205,67 +176,73 @@ public class Overlay implements Closeable
     private void loadPDFs() throws IOException
     {
         // input PDF
-        if (inputFileName != null)
+        if (inputFile.getName() != null)
         {
-            inputPDFDocument = loadPDF(inputFileName);
+            inputFile.setDoc(loadPDF(inputFile.getName()));
         }
-        if (inputPDFDocument == null)
+        if (inputFile.getDoc() == null)
         {
             throw new IllegalArgumentException("No input document");
         }
-        // default overlay PDF
-        if (defaultOverlayFilename != null)
-        {
-            defaultOverlay = loadPDF(defaultOverlayFilename);
+        
+        for (OverlayDocument overlay : overlays) {
+        	if (overlay.getName()!= null) {
+        		overlay.setDoc(loadPDF(overlay.getName()));
+        	}
         }
-        if (defaultOverlay != null)
+        // default overlay PDF
+        if (defaultOverlay.getName() != null)
         {
-            defaultOverlayPage = getLayoutPage(defaultOverlay);
+            defaultOverlay.setDoc(loadPDF(defaultOverlay.getName()));
+        }
+        if (defaultOverlay.getDoc() != null)
+        {
+            defaultOverlayPage = getLayoutPage(defaultOverlay.getDoc());
         }
         // first page overlay PDF
-        if (firstPageOverlayFilename != null)
+        if (firstPageOverlay.getName() != null)
         {
-            firstPageOverlay = loadPDF(firstPageOverlayFilename);
+            firstPageOverlay.setDoc(loadPDF(firstPageOverlay.getName())); 
         }
-        if (firstPageOverlay != null)
+        if (firstPageOverlay.getDoc() != null)
         {
-            firstPageOverlayPage = getLayoutPage(firstPageOverlay);
+            firstPageOverlayPage = getLayoutPage(firstPageOverlay.getDoc());
         }
         // last page overlay PDF
-        if (lastPageOverlayFilename != null)
+        if (lastPageOverlay.getName() != null)
         {
-            lastPageOverlay = loadPDF(lastPageOverlayFilename);
+            lastPageOverlay.setDoc(loadPDF(lastPageOverlay.getName()));
         }
-        if (lastPageOverlay != null)
+        if (lastPageOverlay.getDoc() != null)
         {
-            lastPageOverlayPage = getLayoutPage(lastPageOverlay);
+            lastPageOverlayPage = getLayoutPage(lastPageOverlay.getDoc());
         }
         // odd pages overlay PDF
-        if (oddPageOverlayFilename != null)
+        if (oddPageOverlay.getName() != null)
         {
-            oddPageOverlay = loadPDF(oddPageOverlayFilename);
+            oddPageOverlay.setDoc(loadPDF(oddPageOverlay.getName()));
         }
-        if (oddPageOverlay != null)
+        if (oddPageOverlay.getDoc() != null)
         {
-            oddPageOverlayPage = getLayoutPage(oddPageOverlay);
+            oddPageOverlayPage = getLayoutPage(oddPageOverlay.getDoc());
         }
         // even pages overlay PDF
-        if (evenPageOverlayFilename != null)
+        if (evenPageOverlay.getName() != null)
         {
-            evenPageOverlay = loadPDF(evenPageOverlayFilename);
+            evenPageOverlay.setDoc(loadPDF(evenPageOverlay.getName()));
         }
-        if (evenPageOverlay != null)
+        if (evenPageOverlay.getDoc() != null)
         {
-            evenPageOverlayPage = getLayoutPage(evenPageOverlay);
+            evenPageOverlayPage = getLayoutPage(evenPageOverlay.getDoc());
         }
         // all pages overlay PDF
-        if (allPagesOverlayFilename != null)
+        if (allPagesOverlay.getName() != null)
         {
-            allPagesOverlay = loadPDF(allPagesOverlayFilename);
+            allPagesOverlay.setDoc(loadPDF(allPagesOverlay.getName()));
         }
-        if (allPagesOverlay != null)
+        if (allPagesOverlay.getDoc() != null)
         {
-            specificPageOverlayLayoutPageMap = getLayoutPages(allPagesOverlay);
+            specificPageOverlayLayoutPageMap = getLayoutPages(allPagesOverlay.getDoc());
             useAllOverlayPages = true;
             numberOfOverlayPages = specificPageOverlayLayoutPageMap.size();
         }
@@ -274,25 +251,6 @@ public class Overlay implements Closeable
     private PDDocument loadPDF(String pdfName) throws IOException
     {
         return Loader.loadPDF(new File(pdfName));
-    }
-
-    /**
-     * Stores the overlay page information.
-     */
-    private static final class LayoutPage
-    {
-        private final PDRectangle overlayMediaBox;
-        private final COSStream overlayContentStream;
-        private final COSDictionary overlayResources;
-        private final short overlayRotation;
-
-        private LayoutPage(PDRectangle mediaBox, COSStream contentStream, COSDictionary resources, short rotation)
-        {
-            overlayMediaBox = mediaBox;
-            overlayContentStream = contentStream;
-            overlayResources = resources;
-            overlayRotation = rotation;
-        }
     }
 
     /**
@@ -341,7 +299,7 @@ public class Overlay implements Closeable
     {
         List<COSStream> contentStreams = createContentStreamList(contents);
         // concatenate streams
-        COSStream concatStream = inputPDFDocument.getDocument().createCOSStream();
+        COSStream concatStream = inputFile.getDoc().getDocument().createCOSStream();
         try (OutputStream out = concatStream.createOutputStream(COSName.FLATE_DECODE))
         {
             for (COSStream contentStream : contentStreams)
@@ -601,7 +559,7 @@ public class Overlay implements Closeable
     
     private COSStream createStream(String content) throws IOException
     {
-        COSStream stream = inputPDFDocument.getDocument().createCOSStream();
+        COSStream stream = inputFile.getDoc().getDocument().createCOSStream();
         try (OutputStream out = stream.createOutputStream(
                 content.length() > 20 ? COSName.FLATE_DECODE : null))
         {
@@ -629,7 +587,7 @@ public class Overlay implements Closeable
      */
     public void setInputFile(String inputFile)
     {
-        inputFileName = inputFile;
+        this.inputFile.setName(inputFile);
     }
 
     /**
@@ -640,7 +598,7 @@ public class Overlay implements Closeable
      */
     public void setInputPDF(PDDocument inputPDF)
     {
-        inputPDFDocument = inputPDF;
+        inputFile.setDoc(inputPDF);
     }
 
     /**
@@ -650,7 +608,7 @@ public class Overlay implements Closeable
      */
     public String getInputFile()
     {
-        return inputFileName;
+        return inputFile.getName();
     }
 
     /**
@@ -660,7 +618,7 @@ public class Overlay implements Closeable
      */
     public void setDefaultOverlayFile(String defaultOverlayFile)
     {
-        defaultOverlayFilename = defaultOverlayFile;
+        defaultOverlay.setName(defaultOverlayFile);
     }
 
     /**
@@ -671,7 +629,7 @@ public class Overlay implements Closeable
      */
     public void setDefaultOverlayPDF(PDDocument defaultOverlayPDF)
     {
-        defaultOverlay = defaultOverlayPDF;
+        defaultOverlay.setDoc(defaultOverlayPDF);
     }
 
     /**
@@ -681,7 +639,7 @@ public class Overlay implements Closeable
      */
     public String getDefaultOverlayFile()
     {
-        return defaultOverlayFilename;
+        return defaultOverlay.getName();
     }
 
     /**
@@ -691,7 +649,7 @@ public class Overlay implements Closeable
      */
     public void setFirstPageOverlayFile(String firstPageOverlayFile)
     {
-        firstPageOverlayFilename = firstPageOverlayFile;
+        firstPageOverlay.setName(firstPageOverlayFile);
     }
 
     /**
@@ -702,7 +660,7 @@ public class Overlay implements Closeable
      */
     public void setFirstPageOverlayPDF(PDDocument firstPageOverlayPDF)
     {
-        firstPageOverlay = firstPageOverlayPDF;
+        firstPageOverlay.setDoc(firstPageOverlayPDF);
     }
 
     /**
@@ -712,7 +670,7 @@ public class Overlay implements Closeable
      */
     public void setLastPageOverlayFile(String lastPageOverlayFile)
     {
-        lastPageOverlayFilename = lastPageOverlayFile;
+        lastPageOverlay.setName(lastPageOverlayFile);
     }
 
     /**
@@ -723,7 +681,7 @@ public class Overlay implements Closeable
      */
     public void setLastPageOverlayPDF(PDDocument lastPageOverlayPDF)
     {
-        lastPageOverlay = lastPageOverlayPDF;
+        lastPageOverlay.setDoc(lastPageOverlayPDF);
     }
 
     /**
@@ -733,7 +691,7 @@ public class Overlay implements Closeable
      */
     public void setAllPagesOverlayFile(String allPagesOverlayFile)
     {
-        allPagesOverlayFilename = allPagesOverlayFile;
+        allPagesOverlay.setName(allPagesOverlayFile);
     }
 
     /**
@@ -745,7 +703,7 @@ public class Overlay implements Closeable
      */
     public void setAllPagesOverlayPDF(PDDocument allPagesOverlayPDF)
     {
-        allPagesOverlay = allPagesOverlayPDF;
+        allPagesOverlay.setDoc(allPagesOverlayPDF);
     }
 
     /**
@@ -755,7 +713,7 @@ public class Overlay implements Closeable
      */
     public void setOddPageOverlayFile(String oddPageOverlayFile)
     {
-        oddPageOverlayFilename = oddPageOverlayFile;
+        oddPageOverlay.setName(oddPageOverlayFile);
     }
 
     /**
@@ -766,7 +724,7 @@ public class Overlay implements Closeable
      */
     public void setOddPageOverlayPDF(PDDocument oddPageOverlayPDF)
     {
-        oddPageOverlay = oddPageOverlayPDF;
+        oddPageOverlay.setDoc(oddPageOverlayPDF);
     }
 
     /**
@@ -776,7 +734,7 @@ public class Overlay implements Closeable
      */
     public void setEvenPageOverlayFile(String evenPageOverlayFile)
     {
-        evenPageOverlayFilename = evenPageOverlayFile;
+        evenPageOverlay.setName(evenPageOverlayFile);
     }
 
     /**
@@ -787,6 +745,6 @@ public class Overlay implements Closeable
      */
     public void setEvenPageOverlayPDF(PDDocument evenPageOverlayPDF)
     {
-        evenPageOverlay = evenPageOverlayPDF;
+        evenPageOverlay.setDoc(evenPageOverlayPDF);
     }
 }
